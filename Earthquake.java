@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Earthquake {
+    String id;
+    int depth;
+    String magnitudeType;
+    Double magnitude;
+    String state;
+    int year;
+    String overTime;
+
+    public Earthquake(String id, int depth, String magnitudeType, Double magnitude, String state, int year, String over_time){
+        this.id = id;
+        this.depth = depth;
+        this.magnitudeType = magnitudeType;
+        this.magnitude = magnitude;
+        this.state = state;
+        this.year = year;
+        this.overTime = over_time;
+    }
+
+    public String toString(){
+        return "'"+id+"',"+Integer.toString(depth)+",'"+magnitudeType+"',"+Double.toString(magnitude)+",'"+state+"',"+year+",'"+overTime+"');";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public String getMagnitudeType() {
+        return magnitudeType;
+    }
+
+    public Double getMagnitude() {
+        return magnitude;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public int getYear() {
+        return year;
+    }
+    public String getOverTime(){
+        return overTime;
+    }
+}
