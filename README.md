@@ -16,5 +16,4 @@ File -> Project Structure -> Libraries -> + -> Java -> <Выбрать путь 
 5) Когда все задания были выполнены, результат 1го задания нужно было представить в виде графика, для этого был написан класс BarChart.
 6) В итоге получаем такой вывод программы.
 ![image](https://github.com/uiovan/praktika/assets/152408698/b322a66e-9b9f-45ea-9a33-43d28f75952c)
-![image](https://github.com/uiovan/praktika/assets/152408698/66117604-1d65-4639-89a1-9c4ff9d89f12)
-
+![image](https://github.com/uiovan/praktika/assets/152408698/2ee6f612-5779-4292-a406-437438a8019c)
