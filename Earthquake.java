@@ -1,18 +1,14 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class Earthquake {
-    String id;
-    int depth;
-    String magnitudeType;
-    Double magnitude;
-    String state;
-    int year;
-    String overTime;
+    private String id;
+    private int depth;
+    private String magnitudeType;
+    private Double magnitude;
+    private String state;
+    private int year;
+    private String overTime;
 
     public Earthquake(String id, int depth, String magnitudeType, Double magnitude, String state, int year, String over_time){
+        state = state.toUpperCase();
         this.id = id;
         this.depth = depth;
         this.magnitudeType = magnitudeType;
