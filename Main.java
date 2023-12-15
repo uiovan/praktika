@@ -1,19 +1,42 @@
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static ArrayList<Earthquake> arr;
 
     public static void main(String[] args) {
-        arr = new ArrayList<>();
+        arr = parse();
+
+        try{
+            Class.forName("org.sqlite.JDBC");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:demo.db");
+            if(conn!=null){
+                System.out.println("Соединение установленно.");
+                DB.connect(conn);
+                DB.createDB();
+                DB.writeDB(arr);
+                
+                DB.countEarthQuakeOfYear();
+                
+                calculateAverage();
+                
+                findState();
+            }
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Ошибка");
+        }
+
+    }
+
+    public static ArrayList<Earthquake> parse(){
+        ArrayList<Earthquake> arr = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("Землетрясения.csv"))) {
             String title = br.readLine();
             String line;
@@ -34,53 +57,17 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        List<Double> avg;
-        List<String> count = new ArrayList<>();
-
-        try{
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:demo.db");
-            if(conn!=null){
-                System.out.println("Соединение установленно.");
-                db.connect(conn);
-                db.CreateDB();
-                db.WriteDB(arr, conn);
-                System.out.println();
-
-                //Первое задание
-                System.out.println("1) Постройте график по среднему количеству землетрясений для каждого года:\n");
-                for (int i = Integer.parseInt(db.getMinYear()); i <= Integer.parseInt(db.getMaxYear()); i ++){
-                    count.add(db.countEarthQuakeOfYear(conn, i));
-                }
-                BarChart chart = new BarChart("Graf", "Количество землетрясений за каждый год", count);
-                chart.pack( );
-                chart.setAutoRequestFocus(true);
-                chart.setSize(800,600);
-                chart.setVisible( true );
-
-                //Второе задание
-                System.out.println("2) Выведите в консоль среднюю магнитуду для штата \"West Virginia\":");
-                avg = db.avgMagnitude(conn, "West Virginia");
-                Double sum = 0.0;
-                for (int i = 0; i< avg.size(); i++){
-                    sum += avg.get(i);
-                }
-                sum = sum/ avg.size();
-                sum = (Double)Math.floor(sum*100)/100.0;
-                System.out.println("Cредняя магнитуда в штате West Virginia = " + sum + "\n");
-
-                //Третье задание
-                System.out.println("3) Выведите в консоль название штата, в котором произошло самое глубокое землетрясение в 2013 году:");
-                db.mostDepthEarthQuake(conn, 2013);
-            }
-            conn.close();
-        }catch(Exception e){
-            e.printStackTrace();
-            System.out.println("Ошибка");
-        }
-
+        return arr;
+    }
+    public static void calculateAverage() throws SQLException {
+        System.out.println("2) Выведите в консоль среднюю магнитуду для штата \"WEST VIRGINIA\":");
+        System.out.println("Средняя магнитуда в штате WEST VIRGINIA = " + DB.avgMagnitude("WEST VIRGINIA") + "\n");
+    }
+    public static void findState() throws SQLException{
+        String a = DB.mostDepthEarthquake(2013);
+        String[] str = a.split(" - ");
+        System.out.println("3) Выведите в консоль название штата, в котором произошло самое глубокое землетрясение в 2013 году:");
+        System.out.println("Самое глубокое землетрясение за "+str[0]+"г, глубиной = "+str[1]+"м произошло в штате " +str[2]);
     }
 
 }
-
